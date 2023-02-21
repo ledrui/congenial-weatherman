@@ -1,0 +1,52 @@
+version: '3.9'
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks: 
+  mongo-network:
+    driver: bridge
+
+services:
+  db:
+    image: mongo:6.0.2
+    container_name: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: root
+    env_file:
+      - ./.env
+    networks:
+      - mongo-network
+    restart: always
+
+  redis:
+    image: redis:6.2.5
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - mongo-network
+    restart: always
+
+  app:
+    build: .
+    container_name: app
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    networks:
+      - mongo-network
+    depends_on:
+      - db
+      - redis
+    restart: always
