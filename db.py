@@ -1,17 +1,18 @@
 import os
-from os import getenv
+from dotenv import load_dotenv
 
 from motor.motor_asyncio import AsyncIOMotorClient
-from pymongo import MongoClient
 from odmantic import AIOEngine
 
-MONGO_USERNAME = getenv("MONGO_USER", default="username")
-MONGO_PASSWORD = getenv("MONGO_PASSWORD", default="root")
-MONGO_HOST = getenv("MONGO_HOST", default="localhost")
-MONGO_PORT = getenv("MONGO_PORT", default="27017")
+load_dotenv(".env")
+
+MONGO_USERNAME = os.environ["MONGO_USER"]
+MONGO_PASSWORD = os.environ["MONGO_PASSWORD"]
+MONGO_HOST = os.environ["MONGO_HOST"]
+MONGO_PORT = os.environ["MONGO_PORT"]
 MONGO_URL = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@mongo:{MONGO_PORT}/"
 
-MONGO_DATABASE = getenv("MONGO_DATABASE", default="test")
+MONGO_DATABASE = os.environ["MONGO_DATABASE"]
 
 # instanciate the mongo client
 client = AsyncIOMotorClient(MONGO_URL)
