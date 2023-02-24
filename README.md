@@ -21,6 +21,21 @@ Install `docker` [here](https://docs.docker.com/get-docker/)
 Start docker 
 
 ## Run
+Create your `.env` file with `touch .env` and add the following variables. update to your specific use case
+```
+MONGO_PORT=27017
+MONGO_USER=username
+MONGO_PASSWORD=root
+MONGO_DATABASE=dev
+MONGO_HOST=db
+REDIS_HOST=redis
+REDIS_PORT=6379
+DEBUG_MODE=True
+
+WEATHER_API_ENDPOINT = "https://api.openweathermap.org/data/2.5"
+WEATHER_API_KEY = "4af18769ff7d70e724ed72879b6286a0" 
+```
+
 To launch the app run `make start`
 
 ## Testing
