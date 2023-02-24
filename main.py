@@ -53,7 +53,6 @@ class Query:
         city_data = cache.get(city_name)
         if city_data and len(city_data):            
             city_data = json.loads(city_data)
-            print(city_data)
             weather_data = [WeatherDataModel(date_time=data["date_time"], 
                                          temperature=data["temperature"], 
                                          humidity=data["humidity"]) for data in city_data]
@@ -154,7 +153,22 @@ class Mutation:
         user.favorites = user.favorites + [favorite_city]
         
         await engine.save(user)
-        return  [CityDataType(name=city.name) for city in user.favorites]
+        return  [CityDataType(name=city.name, weather_data=city.weather_data) for city in user.favorites]
+    
+
+    @strawberry.mutation
+    async def remove_favorites(self, info, city:str, user_id:str) -> List[CityDataType]:
+        user = await engine.find_one(UserModel, UserModel.id == ObjectId(user_id))
+        
+        if not user:
+            raise Exception("User not found")
+        if not user.favorites:
+            raise Exception("User has no favorites yet")
+        
+        user.favorites = [city for city in user.favorites if str(city.name) != city]
+        
+        await engine.save(user)
+        return  [CityDataType(name=city.name, weather_data=city.weather_data) for city in user.favorites]
     
     @strawberry.mutation
     async def add_user(self, info, first_name:str, last_name:str) -> strawberry.ID:
