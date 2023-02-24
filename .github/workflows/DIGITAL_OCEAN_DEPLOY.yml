@@ -1,0 +1,17 @@
+name: DIGITAL_OCEAN_DEPLOY
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  Builld:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Create .env
+        run: echo 'PORT=${{secret.PORT}}' > .env
+
+      - name: Run build
+        run: docker compose up -d
