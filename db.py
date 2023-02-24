@@ -17,6 +17,3 @@ MONGO_DATABASE = os.environ["MONGO_DATABASE"]
 # instanciate the mongo client
 client = AsyncIOMotorClient(MONGO_URL)
 engine = AIOEngine(client=client, database="example_db")
-
-# get database
-db = client[MONGO_DATABASE]
