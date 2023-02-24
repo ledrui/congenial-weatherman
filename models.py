@@ -3,15 +3,15 @@ from os import getenv
 from typing import List
 from typing import Optional
 
-from odmantic import Field, Model
+from odmantic import Field, Model, EmbeddedModel
 
 
-class WeatherData(Model):
+class WeatherData(EmbeddedModel):
     date_time: str
     temperature: float 
     humidity: float
 
-class CityData(Model):
+class CityData(EmbeddedModel):
     name: str = Field(required=True)
     weather_data : List[WeatherData] = Field(default_factory=list)
 
