@@ -149,8 +149,27 @@ class Mutation:
             raise Exception("City not found in cache and no data provided")
         
         favorite_city = CityModel(name=city, weather_data=weather_data)
-        
-        user.favorites = user.favorites + [favorite_city]
+
+        """
+        [
+            name: {
+                date_time
+                temperature
+                humidity
+            }, 
+            name: {
+                date_time
+                temperature
+                humidity
+            }
+        ]
+
+        """
+        for city in user.favorites:
+            if city.name == city:
+                pass
+        else:
+            user.favorites.append(favorite_city)
         
         await engine.save(user)
         return  [CityDataType(name=city.name, weather_data=city.weather_data) for city in user.favorites]
@@ -165,7 +184,7 @@ class Mutation:
         if not user.favorites:
             raise Exception("User has no favorites yet")
         
-        user.favorites = [city for city in user.favorites if str(city.name) != city]
+        user.favorites = [fav for fav in user.favorites if fav.name != city]
         
         await engine.save(user)
         return  [CityDataType(name=city.name, weather_data=city.weather_data) for city in user.favorites]
