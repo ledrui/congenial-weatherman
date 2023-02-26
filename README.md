@@ -34,7 +34,7 @@ DEBUG_MODE=True
 PORT=80
 
 WEATHER_API_ENDPOINT = "https://api.openweathermap.org/data/2.5"
-WEATHER_API_KEY = "4af18769ff7d70e724ed72879b6286a0" 
+WEATHER_API_KEY = [YOU API KEY]
 ```
 
 To launch the app run `make start`
